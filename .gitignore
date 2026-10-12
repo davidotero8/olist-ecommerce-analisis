@@ -1,0 +1,14 @@
+# Datos: se descargan de Kaggle y se regeneran con los notebooks (no se suben al repositorio)
+data/raw/
+data/clean/
+
+# Notebooks
+.ipynb_checkpoints/
+__pycache__/
+
+# Soluciones de referencia usadas durante el aprendizaje
+sql/_referencia/
+
+# Sistema
+.DS_Store
+Thumbs.db
