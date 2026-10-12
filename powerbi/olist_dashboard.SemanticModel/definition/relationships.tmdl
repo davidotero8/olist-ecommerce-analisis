@@ -1,0 +1,32 @@
+relationship 66eeca4c-bb5f-476c-a5f3-2cd93f72c0f2
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Pedidos.fecha_compra
+	toColumn: LocalDateTable_4c1fc97f-20e3-4c00-b673-35c859756533.Date
+
+relationship 626294ca-2ff6-4090-9eaf-5a0e17de2ee9
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Pedidos.mes_compra
+	toColumn: LocalDateTable_725369dc-6db3-4845-ab3a-a929d5020d24.Date
+
+relationship afa95898-e1dd-4814-8f89-134dd5a9307e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Pedidos.fecha_entrega
+	toColumn: LocalDateTable_8a52e0ab-d867-4932-bd6a-58d69142db0a.Date
+
+relationship 246a6ad6-dcfb-4b9c-8dc6-e4c485e3d0dd
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Pedidos.fecha_estimada
+	toColumn: LocalDateTable_b73b7f71-1059-4041-bd3b-2bf1e098e490.Date
+
+relationship AutoDetected_a5cb32d9-5eb3-4998-b61e-ba7aa897672e
+	fromColumn: Items.order_id
+	toColumn: Pedidos.order_id
+
+relationship AutoDetected_25bd7ef4-aa02-40bf-9075-b17cee0804b7
+	fromColumn: Items.vendedor
+	toColumn: Vendedores.vendedor
+
+relationship AutoDetected_04f84994-3b8b-4db1-bf02-5916fb9c3619
+	fromColumn: Pedidos.customer_unique_id
+	toColumn: Clientes.customer_unique_id
+

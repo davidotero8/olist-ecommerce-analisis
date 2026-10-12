@@ -1,0 +1,227 @@
+table Pedidos
+	lineageTag: a3022bd3-c039-4ac7-bb38-2ebfad7926cd
+
+	measure 'Ingresos Totales' = CALCULATE ( SUM ( Pedidos[ingresos] ), Pedidos[estado_pedido] = "delivered" )
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 0db252ea-2b84-48f8-8e81-a5049b7405b3
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Pedidos entregados' = CALCULATE ( COUNTROWS ( Pedidos ), Pedidos[estado_pedido] = "delivered" )
+		formatString: #,0.000
+		lineageTag: f104d7e3-be5d-4af0-b83a-43674b70a9f3
+
+	measure 'Nota media' = CALCULATE ( AVERAGE ( Pedidos[nota] ), Pedidos[estado_pedido] = "delivered" )
+		formatString: 0.00
+		lineageTag: 1c82508d-82d6-4391-93f8-75bdd7eb6e22
+
+	measure 'Ticket medio' = DIVIDE ( [Ingresos Totales], [Pedidos entregados] )
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 0b18e987-3787-49a7-8038-09b974e214ad
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Entregas tardías' = AVERAGE ( Pedidos[entrega_tardia] )
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		lineageTag: 55dbfc08-5698-407c-b63b-0e8ac4c7d645
+
+	measure 'Nota media con retraso' = CALCULATE ( [Nota media], Pedidos[entrega_tardia] = 1 )
+		lineageTag: 4b29dbe1-dde7-4a37-980e-746f36669ceb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Nota media en plazo' = CALCULATE ( [Nota media], Pedidos[entrega_tardia] = 0 )
+		lineageTag: 29a19f79-7ac4-4223-a30c-7bccdc8f7a6f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column order_id
+		dataType: string
+		lineageTag: af322488-a7c2-40c6-b0c5-9f0a7c564737
+		summarizeBy: none
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_unique_id
+		dataType: string
+		lineageTag: 0b914e0b-27c3-4ac6-ae0c-25e837fba80f
+		summarizeBy: none
+		sourceColumn: customer_unique_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column estado
+		dataType: string
+		lineageTag: 4617221e-7933-4109-b545-79acfbe03515
+		summarizeBy: none
+		sourceColumn: estado
+
+		annotation SummarizationSetBy = Automatic
+
+	column estado_nombre
+		dataType: string
+		lineageTag: 70861418-616d-4821-8871-6a1f4dbe187e
+		summarizeBy: none
+		sourceColumn: estado_nombre
+
+		annotation SummarizationSetBy = Automatic
+
+	column estado_pedido
+		dataType: string
+		lineageTag: a4b0e5ee-6743-48d7-8974-efda9398c2c8
+		summarizeBy: none
+		sourceColumn: estado_pedido
+
+		annotation SummarizationSetBy = Automatic
+
+	column fecha_compra
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 94ac3a28-bf41-4a85-9827-c3f5f0fd22a7
+		summarizeBy: none
+		sourceColumn: fecha_compra
+
+		variation Variación
+			isDefault
+			relationship: 66eeca4c-bb5f-476c-a5f3-2cd93f72c0f2
+			defaultHierarchy: LocalDateTable_4c1fc97f-20e3-4c00-b673-35c859756533.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column mes_compra
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: ac130955-a39a-49d8-9f2e-5add4856a6bc
+		summarizeBy: none
+		sourceColumn: mes_compra
+
+		variation Variación
+			isDefault
+			relationship: 626294ca-2ff6-4090-9eaf-5a0e17de2ee9
+			defaultHierarchy: LocalDateTable_725369dc-6db3-4845-ab3a-a929d5020d24.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column fecha_entrega
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: e0d17828-5d8a-41eb-9ef1-c47d4821ab9a
+		summarizeBy: none
+		sourceColumn: fecha_entrega
+
+		variation Variación
+			isDefault
+			relationship: afa95898-e1dd-4814-8f89-134dd5a9307e
+			defaultHierarchy: LocalDateTable_8a52e0ab-d867-4932-bd6a-58d69142db0a.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column fecha_estimada
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: ea66c279-3c93-4db6-a09d-5f3de5b6e06e
+		summarizeBy: none
+		sourceColumn: fecha_estimada
+
+		variation Variación
+			isDefault
+			relationship: 246a6ad6-dcfb-4b9c-8dc6-e4c485e3d0dd
+			defaultHierarchy: LocalDateTable_b73b7f71-1059-4041-bd3b-2bf1e098e490.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column fechas_incoherentes
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: ed71c8bd-bd1f-492f-99f6-43f64ab57947
+		summarizeBy: none
+		sourceColumn: fechas_incoherentes
+
+		annotation SummarizationSetBy = Automatic
+
+	column ingresos
+		dataType: double
+		lineageTag: a7a7add1-7197-442f-ad24-a7e665f8d9a8
+		summarizeBy: sum
+		sourceColumn: ingresos
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column flete
+		dataType: double
+		lineageTag: 3c931176-2350-4608-97ce-cce1cb589c04
+		summarizeBy: sum
+		sourceColumn: flete
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column articulos
+		dataType: int64
+		formatString: 0
+		lineageTag: 15412a5d-e3c6-48cb-b8df-4f76f2f7cf80
+		summarizeBy: sum
+		sourceColumn: articulos
+
+		annotation SummarizationSetBy = Automatic
+
+	column dias_retraso
+		dataType: int64
+		formatString: 0
+		lineageTag: 2a812cb1-9060-4d7b-bfef-74cde4f9cd15
+		summarizeBy: sum
+		sourceColumn: dias_retraso
+
+		annotation SummarizationSetBy = Automatic
+
+	column nota
+		dataType: int64
+		formatString: 0
+		lineageTag: 5aa64dfc-6050-4f80-8965-31a4c773770c
+		summarizeBy: sum
+		sourceColumn: nota
+
+		annotation SummarizationSetBy = Automatic
+
+	column entrega_tardia
+		dataType: int64
+		formatString: 0
+		lineageTag: f2be6b34-35a6-4718-abc1-2d126cf79eca
+		summarizeBy: sum
+		sourceColumn: entrega_tardia
+
+		annotation SummarizationSetBy = Automatic
+
+	column tramo_retraso
+		dataType: string
+		lineageTag: 3b5f45d6-d70d-419c-a78b-a8fbd705fde8
+		summarizeBy: none
+		sourceColumn: tramo_retraso
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Pedidos = m
+		mode: import
+		source =
+				let
+				    Origen = PostgreSQL.Database("localhost:5433", "olist"),
+				    public_v_pedidos = Origen{[Schema="public",Item="v_pedidos"]}[Data]
+				in
+				    public_v_pedidos
+
+	changedProperty = Name
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,54 @@
+table Clientes
+	lineageTag: 65e508f2-5571-44e8-87bb-e0652c61b500
+
+	measure '% Recompra' = AVERAGE ( Clientes[repite] )
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 8c829b4a-673a-4bd9-96c6-378ff5693f64
+
+	column customer_unique_id
+		dataType: string
+		lineageTag: a7a86a9d-d184-4425-8241-ff453cb57622
+		summarizeBy: none
+		sourceColumn: customer_unique_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column pedidos
+		dataType: int64
+		formatString: 0
+		lineageTag: 30049c88-6254-4a18-b205-cf151f606562
+		summarizeBy: none
+		sourceColumn: pedidos
+
+		annotation SummarizationSetBy = Automatic
+
+	column repite
+		dataType: int64
+		formatString: 0
+		lineageTag: 1623c7ca-13cf-43fd-a038-0c1c2435d473
+		summarizeBy: none
+		sourceColumn: repite
+
+		annotation SummarizationSetBy = Automatic
+
+	column primer_pedido
+		dataType: string
+		lineageTag: 234a2980-7ff9-4bcf-b9c7-34ce19a72260
+		summarizeBy: none
+		sourceColumn: primer_pedido
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Clientes = m
+		mode: import
+		source =
+				let
+				    Origen = PostgreSQL.Database("localhost:5433", "olist"),
+				    public_v_clientes = Origen{[Schema="public",Item="v_clientes"]}[Data]
+				in
+				    public_v_clientes
+
+	changedProperty = Name
+
+	annotation PBI_ResultType = Table
+

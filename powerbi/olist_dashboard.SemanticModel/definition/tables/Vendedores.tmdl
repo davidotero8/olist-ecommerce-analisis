@@ -1,0 +1,103 @@
+table Vendedores
+	lineageTag: 43f6e77f-cc82-48c2-8578-710ef778c24c
+
+	measure 'Vendedores para el 80%' = CALCULATE ( MIN ( Vendedores[ranking] ), Vendedores[pct_acumulado] >= 80 )
+		formatString: 0
+		lineageTag: 7d5df219-726b-4e47-b45d-d79c1e6b3bd0
+
+	measure 'Vendedores totales' = COUNTROWS ( Vendedores )
+		formatString: 0
+		lineageTag: ba695bdc-65e0-456c-9cb8-f942dbccdf4b
+
+	measure '% de vendedores para el 80%' = DIVIDE ( [Vendedores para el 80%], [Vendedores totales] )
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		lineageTag: 8b54a579-7d3d-4103-973c-d7e3d652bdea
+
+	column vendedor
+		dataType: string
+		lineageTag: c8a33379-c4da-45b3-a3f6-4ba33973bddd
+		summarizeBy: none
+		sourceColumn: vendedor
+
+		annotation SummarizationSetBy = Automatic
+
+	column ingresos
+		dataType: double
+		lineageTag: 1cf76f55-356b-4171-93b3-15b4068a2128
+		summarizeBy: none
+		sourceColumn: ingresos
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pedidos
+		dataType: int64
+		formatString: 0
+		lineageTag: a5623c76-78ba-4b34-8d45-98d39c0f769b
+		summarizeBy: none
+		sourceColumn: pedidos
+
+		annotation SummarizationSetBy = Automatic
+
+	column ranking
+		dataType: int64
+		formatString: 0
+		lineageTag: 916a0588-2f0a-4020-be59-e1a8b653c4dc
+		summarizeBy: none
+		sourceColumn: ranking
+
+		annotation SummarizationSetBy = Automatic
+
+	column pct_acumulado
+		dataType: double
+		lineageTag: 90cc64aa-9693-4b27-9f68-d93ea6006359
+		summarizeBy: none
+		sourceColumn: pct_acumulado
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pedidos_servicio
+		dataType: int64
+		formatString: 0
+		lineageTag: 008147b5-f28b-469b-830c-5728d4676e1b
+		summarizeBy: none
+		sourceColumn: pedidos_servicio
+
+		annotation SummarizationSetBy = Automatic
+
+	column pct_tarde
+		dataType: double
+		lineageTag: 91338206-b8a5-4347-82f3-ff59ddc5da14
+		summarizeBy: none
+		sourceColumn: pct_tarde
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column nota_media
+		dataType: double
+		lineageTag: 9303b182-409d-455c-b296-d98d30675296
+		summarizeBy: none
+		sourceColumn: nota_media
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Vendedores = m
+		mode: import
+		source =
+				let
+				    Origen = PostgreSQL.Database("localhost:5433", "olist"),
+				    public_v_vendedores = Origen{[Schema="public",Item="v_vendedores"]}[Data]
+				in
+				    public_v_vendedores
+
+	changedProperty = Name
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,91 @@
+table Items
+	lineageTag: c7a4d500-75f0-4ea6-9b0d-680aa1550516
+
+	measure 'Ingresos artículos' = CALCULATE ( SUM ( Items[precio] ), Pedidos[estado_pedido] = "delivered" )
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 1a9badd1-21b2-492d-995b-2c727198d641
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column order_id
+		dataType: string
+		lineageTag: 1563cb59-4109-42a7-a553-69bc702c9555
+		summarizeBy: none
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_item_id
+		dataType: int64
+		formatString: 0
+		lineageTag: c37fd139-8afd-498e-acfe-0f4a4f8c9d0c
+		summarizeBy: sum
+		sourceColumn: order_item_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column seller_id
+		dataType: string
+		lineageTag: a96cff76-95a1-4264-a915-d4b999c7809b
+		summarizeBy: none
+		sourceColumn: seller_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column vendedor
+		dataType: string
+		lineageTag: a1e60a07-fd58-49ad-8748-700d0bad349d
+		summarizeBy: none
+		sourceColumn: vendedor
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_id
+		dataType: string
+		lineageTag: 33ab4f42-2140-4721-a6f6-75528ea09866
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column categoria
+		dataType: string
+		lineageTag: 004b7bea-cc40-4122-98cd-c611136e2954
+		summarizeBy: none
+		sourceColumn: categoria
+
+		annotation SummarizationSetBy = Automatic
+
+	column precio
+		dataType: double
+		lineageTag: 34ba3997-7fec-4655-b8cf-3a0393a61a19
+		summarizeBy: sum
+		sourceColumn: precio
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column flete
+		dataType: double
+		lineageTag: 1f1b54e5-bd7a-4f86-91b2-ba6f6ff7b586
+		summarizeBy: sum
+		sourceColumn: flete
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Items = m
+		mode: import
+		source =
+				let
+				    Origen = PostgreSQL.Database("localhost:5433", "olist"),
+				    public_v_items = Origen{[Schema="public",Item="v_items"]}[Data]
+				in
+				    public_v_items
+
+	changedProperty = Name
+
+	annotation PBI_ResultType = Table
+
