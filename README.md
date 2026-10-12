@@ -4,7 +4,7 @@
 
 Análisis de ~100.000 pedidos de un marketplace brasileño, de los datos en bruto a un dashboard con conclusiones de negocio. La pregunta central del proyecto: **¿qué ocurre con la satisfacción del cliente cuando un pedido llega tarde?**
 
-![Dashboard: resumen de ventas](docs/img/dashboard_1_resumen.jpg)
+![Dashboard: resumen de ventas](docs/img/dashboard_1_resumen.png)
 
 ## Resumen del resultado
 
@@ -65,9 +65,9 @@ Python se usa para los arreglos que afectan a **una sola tabla** (tipos, duplica
 
 ### Dashboard
 
-![Dashboard: logística y satisfacción](docs/img/dashboard_2_logistica.jpg)
+![Dashboard: logística y satisfacción](docs/img/dashboard_2_logistica.png)
 
-![Dashboard: clientes y vendedores](docs/img/dashboard_3_clientes_vendedores.jpg)
+![Dashboard: clientes y vendedores](docs/img/dashboard_3_clientes_vendedores.png)
 
 El informe completo está en [`powerbi/olist_dashboard.pbix`](powerbi/olist_dashboard.pbix) (y como proyecto editable `.pbip`), y en PDF en [`docs/dashboard.pdf`](docs/dashboard.pdf).
 
@@ -83,7 +83,7 @@ El informe completo está en [`powerbi/olist_dashboard.pbix`](powerbi/olist_dash
 
 ## Cómo reproducirlo
 
-1. Descargar el dataset de Kaggle y descomprimir los 9 CSV en `data/raw/`.
+1. Crear las carpetas `data/raw/` y `data/clean/` (no se suben al repositorio), descargar el dataset de Kaggle y descomprimir los 9 CSV en `data/raw/`.
 2. `pip install -r requirements.txt` y ejecutar `notebooks/02_limpieza.ipynb`, que escribe los CSV limpios en `data/clean/`.
 3. Levantar PostgreSQL (los datos de conexión de prueba están en `docker-compose.yml`):
    ```bash
@@ -100,7 +100,7 @@ El informe completo está en [`powerbi/olist_dashboard.pbix`](powerbi/olist_dash
 ## Estructura
 
 ```
-portfolio-olist/
+olist-ecommerce-analisis/
 ├── notebooks/   exploración y limpieza (Python)
 ├── sql/         esquema, carga, consultas de análisis y vistas
 ├── powerbi/     dashboard (.pbix y proyecto .pbip)
